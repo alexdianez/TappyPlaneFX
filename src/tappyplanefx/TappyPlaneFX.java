@@ -5,47 +5,73 @@
  */
 package tappyplanefx;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 
 /**
  *
  * @author alex
  */
 public class TappyPlaneFX extends Application {
-    
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hola Raúl'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hola Raúl");
-            }
-        });
+        Pane root = new Pane(); 
+        Scene scene = new Scene(root, 600, 400, Color.BLACK);
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hola Raúl");
+        primaryStage.setTitle("Tappy Plane");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+        
+        Ellipse elipse3 = new Ellipse(); {
+        elipse3.setRotate(50);
+        elipse3.setCenterX(85.0f);
+        elipse3.setCenterY(190.0f);
+        elipse3.setRadiusX(15.0f);
+        elipse3.setRadiusY(5.0f);
+        elipse3.setFill(Color.WHITE);
+        root.getChildren().add(elipse3);
+        
+         Ellipse elipse2 = new Ellipse(); {
+        elipse2.setRotate(50);
+        elipse2.setCenterX(45.0f);
+        elipse2.setCenterY(190.0f);
+        elipse2.setRadiusX(20.0f);
+        elipse2.setRadiusY(10.0f);
+        elipse2.setFill(Color.RED);
+        root.getChildren().add(elipse2);
+        
+        Ellipse elipse = new Ellipse(); {
+        elipse.setCenterX(85.0f);
+        elipse.setCenterY(200.0f);
+        elipse.setRadiusX(40.0f);
+        elipse.setRadiusY(15.0f);
+        elipse.setFill(Color.RED);
+        root.getChildren().add(elipse);
+        
+        Ellipse elipse4 = new Ellipse(); {
+        elipse4.setRotate(-50);
+        elipse4.setCenterX(85.0f);
+        elipse4.setCenterY(215.0f);
+        elipse4.setRadiusX(15.0f);
+        elipse4.setRadiusY(5.0f);
+        elipse4.setFill(Color.WHITE);
+        root.getChildren().add(elipse4);
+        
+        Circle pelota= new Circle(40,185,3);
+        pelota.setFill(Color.WHITE);
+        root.getChildren().add(pelota);
+         
+        }
     
+    }
+    }
 }
+}
+};
