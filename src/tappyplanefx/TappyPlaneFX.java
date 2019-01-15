@@ -25,6 +25,7 @@ import javafx.application.Application;
  import javafx.scene.image.ImageView;
  import javafx.scene.layout.HBox;
  import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
  import javafx.stage.Stage; 
 
 /**
@@ -32,22 +33,25 @@ import javafx.application.Application;
  * @author alex
  */
 public class TappyPlaneFX extends Application {
-    int PosX= 50;
-    int velocidad=1;
+    int posX= 0;
+    int posX2= 800;
+    int velocidad=-1;
     @Override
     public void start(Stage primaryStage) {
         Image image = new Image("fondo.png");
+        
          ImageView fondo1 = new ImageView();
+         ImageView fondo2 = new ImageView();
          fondo1.setImage(image);
-         Group groupPerson = new Group();
+         fondo2.setImage(image);
+         Group groupAvion = new Group();
          Group root2 = new Group();
-         HBox prueba = new HBox();
-         prueba.getChildren().add(fondo1);
-         root2.getChildren().add(prueba);
+         
+        
         
          
         Pane root = new Pane(); 
-        Scene scene = new Scene(root2, 600, 400, Color.BLACK);
+        Scene scene = new Scene(root, 800, 400, Color.BLACK);
         primaryStage.setTitle("Tappy Plane");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -60,18 +64,19 @@ public class TappyPlaneFX extends Application {
         elipse5.setCenterY(180.0f);
         elipse5.setRadiusX(7.0f);
         elipse5.setRadiusY(2.0f);
-        elipse5.setFill(Color.WHITE);
-        groupPerson.getChildren().add(elipse5);
+        elipse5.setFill(Color.BLACK);
+        groupAvion.getChildren().add(elipse5);
         
-        Ellipse elipse3 = new Ellipse(); {
-        elipse3.setRotate(50);
-        elipse3.setCenterX(85.0f);
-        elipse3.setCenterY(189.0f);
-        elipse3.setRadiusX(20.0f);
-        elipse3.setRadiusY(5.0f);
-        elipse3.setFill(Color.WHITE);
-        groupPerson.getChildren().add(elipse3);
         
+        
+          Polygon polygon = new Polygon();
+        polygon.getPoints().addAll(new Double[]{
+            65.0, 175.0,
+            105.0, 185.0,
+            105.0, 195.0 });
+        polygon.setRotate(15);
+        polygon.setFill(Color.BLACK);
+        groupAvion.getChildren().add(polygon);
         
          Ellipse elipse2 = new Ellipse(); {
         elipse2.setRotate(50);
@@ -80,7 +85,7 @@ public class TappyPlaneFX extends Application {
         elipse2.setRadiusX(20.0f);
         elipse2.setRadiusY(5.0f);
         elipse2.setFill(Color.RED);
-        groupPerson.getChildren().add(elipse2);
+        groupAvion.getChildren().add(elipse2);
         
         Ellipse elipse = new Ellipse(); {
         elipse.setCenterX(85.0f);
@@ -88,17 +93,25 @@ public class TappyPlaneFX extends Application {
         elipse.setRadiusX(40.0f);
         elipse.setRadiusY(15.0f);
         elipse.setFill(Color.RED);
-        groupPerson.getChildren().add(elipse);
+        groupAvion.getChildren().add(elipse);
         
+         Polygon polygon2 = new Polygon();
+        polygon2.getPoints().addAll(new Double[]{
+            63.0, 215.0,
+            103.0, 225.0,
+            108.0, 235.0 });
+        polygon2.setRotate(295);
+        polygon2.setFill(Color.BLACK);
+        groupAvion.getChildren().add(polygon2);
         
-        Ellipse elipse4 = new Ellipse(); {
-        elipse4.setRotate(-50);
-        elipse4.setCenterX(85.0f);
-        elipse4.setCenterY(223.0f);
-        elipse4.setRadiusX(20.0f);
-        elipse4.setRadiusY(5.0f);
-        elipse4.setFill(Color.WHITE);
-        groupPerson.getChildren().add(elipse4);
+        Polygon polygon3 = new Polygon();
+        polygon3.getPoints().addAll(new Double[]{
+            24.0, 173.0,
+            37.0, 183.0,
+            34.0, 193.0 });
+        polygon3.setRotate(295);
+        polygon3.setFill(Color.RED);
+        groupAvion.getChildren().add(polygon3);
         
         Rectangle rect = new Rectangle();{
         rect.setRotate(90);
@@ -109,7 +122,7 @@ public class TappyPlaneFX extends Application {
         rect.setArcWidth(5);
         rect.setArcHeight(5);
         rect.setFill(Color.WHITE);
-        groupPerson.getChildren().add(rect);
+        groupAvion.getChildren().add(rect);
         
         Rectangle rect2 = new Rectangle();{
         rect2.setRotate(90);
@@ -120,7 +133,7 @@ public class TappyPlaneFX extends Application {
         rect2.setArcWidth(10);
         rect2.setArcHeight(10);
         rect2.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect2);
+        groupAvion.getChildren().add(rect2);
         
         Rectangle rect3 = new Rectangle();{
         rect3.setRotate(90);
@@ -131,7 +144,7 @@ public class TappyPlaneFX extends Application {
         rect3.setArcWidth(10);
         rect3.setArcHeight(10);
         rect3.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect3);
+        groupAvion.getChildren().add(rect3);
         
          Rectangle rect4 = new Rectangle();{
         rect4.setRotate(90);
@@ -142,7 +155,7 @@ public class TappyPlaneFX extends Application {
         rect4.setArcWidth(10);
         rect4.setArcHeight(10);
         rect4.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect4);
+        groupAvion.getChildren().add(rect4);
         
          Rectangle rect5 = new Rectangle();{
         rect5.setRotate(90);
@@ -153,7 +166,7 @@ public class TappyPlaneFX extends Application {
         rect5.setArcWidth(10);
         rect5.setArcHeight(10);
         rect5.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect5);
+        groupAvion.getChildren().add(rect5);
         
          Rectangle rect6 = new Rectangle();{
         rect6.setRotate(90);
@@ -164,7 +177,7 @@ public class TappyPlaneFX extends Application {
         rect6.setArcWidth(10);
         rect6.setArcHeight(10);
         rect6.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect6);
+        groupAvion.getChildren().add(rect6);
         
         Rectangle rect7 = new Rectangle();{
         rect7.setRotate(90);
@@ -175,7 +188,7 @@ public class TappyPlaneFX extends Application {
         rect7.setArcWidth(10);
         rect7.setArcHeight(10);
         rect7.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rect7);
+        groupAvion.getChildren().add(rect7);
         
         Rectangle rectatras = new Rectangle();{
         rectatras.setRotate(90);
@@ -186,7 +199,7 @@ public class TappyPlaneFX extends Application {
         rectatras.setArcWidth(10);
         rectatras.setArcHeight(10);
         rectatras.setFill(Color.BLACK);
-        groupPerson.getChildren().add(rectatras);
+        groupAvion.getChildren().add(rectatras);
         
         Rectangle ventana2 = new Rectangle();{
         ventana2.setRotate(-25);
@@ -197,7 +210,7 @@ public class TappyPlaneFX extends Application {
         ventana2.setArcWidth(10);
         ventana2.setArcHeight(10);
         ventana2.setFill(Color.BLACK);
-        groupPerson.getChildren().add(ventana2);
+        groupAvion.getChildren().add(ventana2);
         
         Rectangle ventana = new Rectangle();{
         ventana.setRotate(-25);
@@ -208,7 +221,7 @@ public class TappyPlaneFX extends Application {
         ventana.setArcWidth(10);
         ventana.setArcHeight(10);
         ventana.setFill(Color.AQUAMARINE);
-        groupPerson.getChildren().add(ventana);
+        groupAvion.getChildren().add(ventana);
         
        Ellipse elipse6 = new Ellipse(); {
         elipse6.setRotate(-50);
@@ -216,19 +229,28 @@ public class TappyPlaneFX extends Application {
         elipse6.setCenterY(195.0f);
         elipse6.setRadiusX(9.0f);
         elipse6.setRadiusY(2.0f);
-        elipse6.setFill(Color.WHITE);
-        groupPerson.getChildren().add(elipse6);
+        elipse6.setFill(Color.BLACK);
+        groupAvion.getChildren().add(elipse6);
+        
+      
         
         AnimationTimer mov = new AnimationTimer(){
             @Override
             public void handle (long now){
-                 groupPerson.setLayoutX(PosX);
-                 PosX+=velocidad;
+                fondo1.setLayoutX(posX);
+                fondo2.setLayoutX(posX2);
+                if(posX2==0){
+                        posX=800;
+                        }
+                posX+=velocidad;
+                posX2+=velocidad;
             };
         };
         mov.start();
-        root.getChildren().add(groupPerson);
-        root2.getChildren().add(groupPerson);
+        root.getChildren().add(fondo2);
+        root.getChildren().add(fondo1);
+        root.getChildren().add(groupAvion);
+        
          
         }
     
@@ -243,8 +265,6 @@ public class TappyPlaneFX extends Application {
 }
 }
     }
-}
-}
 }
 }
 }
