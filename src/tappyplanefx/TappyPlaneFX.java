@@ -349,7 +349,7 @@ public class TappyPlaneFX extends Application {
                 posX+=velocidad;
                 posX2+=velocidad;
                 posYAVION+=velocidadavion;
-                avion.setY(posYAVION);
+                //avion.setY(posYAVION);
                 
             };
         };
