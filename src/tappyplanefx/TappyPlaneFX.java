@@ -5,6 +5,8 @@
  */
 package tappyplanefx;
 
+import java.awt.event.MouseEvent;
+import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
@@ -18,11 +20,13 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.application.Application;
+import javafx.event.EventHandler;
  import javafx.geometry.Rectangle2D;
  import javafx.scene.Group;
  import javafx.scene.Scene; 
  import javafx.scene.image.Image;
  import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
  import javafx.scene.layout.HBox;
  import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -35,9 +39,15 @@ import javafx.scene.shape.Polygon;
 public class TappyPlaneFX extends Application {
     int posX= 0;
     int posX2= 800;
+    int posXOBS=0;
+    int posXOBS2=0;
+    int posXOBS3=0;
+    int posXOBS4=0;
     int velocidad=-1;
+    int velocidadavion=2;
+    int posXAVION=100;
+    int posYAVION=0;
     Pane root;
-    
     public void avion(){
        Group groupAvion = new Group();
        
@@ -216,7 +226,11 @@ public class TappyPlaneFX extends Application {
         groupAvion.getChildren().add(elipse6);
 
         root.getChildren().add(groupAvion);
-    
+        groupAvion.setScaleX(0.8);
+        groupAvion.setScaleY(0.8);
+        groupAvion.setLayoutX(posXAVION);
+        groupAvion.setLayoutY(posYAVION);
+        
     }
 
         @Override
@@ -233,6 +247,8 @@ public class TappyPlaneFX extends Application {
          
          ImageView obst = new ImageView();
          ImageView obst2 = new ImageView();
+         ImageView obst3 = new ImageView();
+         ImageView obst4 = new ImageView();
          
          fondo1.setImage(image);
          fondo2.setImage(image);
@@ -242,18 +258,38 @@ public class TappyPlaneFX extends Application {
          
          obst.setImage(image3);
          obst2.setImage(image3);
-         
-         
+         obst3.setImage(image3);
+         obst4.setImage(image3);
+        
+        
+       
         root = new Pane(); 
         Scene scene = new Scene(root, 800, 400, Color.BLACK);
         primaryStage.setTitle("Tappy Plane");
         primaryStage.setScene(scene);
         primaryStage.show();
+        Random aleatorio=new Random();
         
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch(event.getCode()){
+                case UP:
+                    velocidadavion=2;
+                    break;
+                case DOWN:
+                    velocidadavion=-2;
+                    break;
+            }
+        });
+        scene.setOnKeyReleased((KeyEvent event) -> {
+            velocidadavion=-2;
+        });
         
-       AnimationTimer mov = new AnimationTimer(){
+        AnimationTimer mov = new AnimationTimer(){
             @Override
             public void handle (long now){
+                
+                
+                //Colocamos el fondo
                 fondo1.setX(posX);
                 fondo2.setX(posX2);
                 //Colocamos el suelo
@@ -262,21 +298,59 @@ public class TappyPlaneFX extends Application {
                 suelo2.setX(posX2);
                 suelo.setX(posX);
                 //Colocamos los obstaculos
+                //Eje X
+                //Obstaculo 1
                 obst.setY(200);
-                obst.setX(posX2-300);
+                obst.setX(posXOBS);
+                //Obstaculo 2
+                obst3.setY(250);
+                obst3.setX(posXOBS2);
+                //EjeY
+                //Obstaculo 3
                 obst2.setY(0);
-                obst2.setX(posX2-50);
+                obst2.setX(posXOBS3);
+                //Obstaculo 4
+                obst4.setY(0);
+                obst4.setX(posXOBS4);
+               
+               //Redimensionado de imagenes
                 obst2.setFitHeight(120);
                 obst2.setFitWidth(54);
                 obst2.setRotate(180);
+                obst4.setFitHeight(190);
+                obst4.setFitWidth(54);
+                obst4.setRotate(180);
+                if(posXOBS==0){
+                    int separacion=aleatorio.nextInt(950);
+                    posXOBS+=separacion;
+                }
+                if(posXOBS2==0){
+                    int separacion=aleatorio.nextInt(950);
+                    posXOBS2=posXOBS+separacion;
+                }
+                if(posXOBS3==0){
+                    int separacion=aleatorio.nextInt(950);
+                    posXOBS3=posXOBS2+separacion;
+                }
+                if(posXOBS4==0){
+                    int separacion=aleatorio.nextInt(950);
+                    posXOBS4=posXOBS3+separacion;
+                }
                 if(posX2==0){
                     posX=800;
                 }
                 if(posX==0){
                     posX2=800;
                 }
+                posXOBS+=velocidad;
+                posXOBS2+=velocidad;
+                posXOBS3+=velocidad;
+                posXOBS4+=velocidad;
                 posX+=velocidad;
                 posX2+=velocidad;
+                posYAVION+=velocidadavion;
+                avion.setY(posYAVION);
+                
             };
         };
         mov.start();
@@ -284,6 +358,8 @@ public class TappyPlaneFX extends Application {
         root.getChildren().add(fondo1);
         root.getChildren().add(obst);
         root.getChildren().add(obst2);
+        root.getChildren().add(obst3);
+        root.getChildren().add(obst4);
         root.getChildren().add(suelo);
         root.getChildren().add(suelo2);
         avion();
