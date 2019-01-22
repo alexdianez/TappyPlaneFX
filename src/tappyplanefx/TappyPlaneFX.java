@@ -30,6 +30,7 @@ import javafx.scene.input.KeyEvent;
  import javafx.scene.layout.HBox;
  import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
  import javafx.stage.Stage; 
 
 /**
@@ -39,17 +40,27 @@ import javafx.scene.shape.Polygon;
 public class TappyPlaneFX extends Application {
     int posX= 0;
     int posX2= 800;
-    int posXOBS=0;
-    int posXOBS2=0;
-    int posXOBS3=0;
-    int posXOBS4=0;
+    int posXOBS=820;
+    int posXOBS2=900;
+    int posXOBS3=960;
+    int posXOBS4=1070;
     int velocidad=-1;
     int velocidadavion=2;
     int posXAVION=100;
     int posYAVION=0;
+    int posXScore=0;
     Pane root;
+    Group groupAvion = new Group();
+     Ellipse elipse = new Ellipse(); 
+//        elipse.setCenterX(85.0f);
+//        elipse.setCenterY(200.0f);
+//        elipse.setRadiusX(40.0f);
+//        elipse.setRadiusY(15.0f);
+//        elipse.setFill(Color.RED);
+//        groupAvion.getChildren().add(elipse);
+   
     public void avion(){
-       Group groupAvion = new Group();
+       
        
         Ellipse elipse5 = new Ellipse(); 
         elipse5.setRotate(-50);
@@ -80,7 +91,7 @@ public class TappyPlaneFX extends Application {
         elipse2.setFill(Color.RED);
         groupAvion.getChildren().add(elipse2);
         
-        Ellipse elipse = new Ellipse(); 
+//        Ellipse elipse = new Ellipse(); 
         elipse.setCenterX(85.0f);
         elipse.setCenterY(200.0f);
         elipse.setRadiusX(40.0f);
@@ -235,9 +246,17 @@ public class TappyPlaneFX extends Application {
 
         @Override
     public void start(Stage primaryStage) {
+        //Cuerpo
         Image image = new Image("fondo.png");
         Image image2 = new Image("suelo.png");
         Image image3 = new Image("obst.png");
+        //Score
+        Image image4 = new Image("s.png");
+        Image image5 = new Image("c.png");
+        Image image6 = new Image("o.png");
+        Image image7 = new Image("r.png");
+        Image image8 = new Image("e.png");
+        Image image9 = new Image("dospuntos.png");
         
          ImageView fondo1 = new ImageView();
          ImageView fondo2 = new ImageView();
@@ -250,6 +269,26 @@ public class TappyPlaneFX extends Application {
          ImageView obst3 = new ImageView();
          ImageView obst4 = new ImageView();
          
+         ImageView letraS = new ImageView();
+         ImageView letraC = new ImageView();
+         ImageView letraO = new ImageView();
+         ImageView letraR = new ImageView();
+         ImageView letraE = new ImageView();
+         ImageView dospuntos = new ImageView();
+         
+         letraS.setScaleX(0.5);
+         letraS.setScaleY(0.5);
+         letraC.setScaleX(0.5);
+         letraC.setScaleY(0.5);
+         letraO.setScaleX(0.5);
+         letraO.setScaleY(0.5);
+         letraR.setScaleX(0.5);
+         letraR.setScaleY(0.5);
+         letraE.setScaleX(0.5);
+         letraE.setScaleY(0.5);
+         dospuntos.setScaleX(0.04);
+         dospuntos.setScaleY(0.04);
+         
          fondo1.setImage(image);
          fondo2.setImage(image);
          
@@ -260,8 +299,21 @@ public class TappyPlaneFX extends Application {
          obst2.setImage(image3);
          obst3.setImage(image3);
          obst4.setImage(image3);
-        
-        
+         
+         letraS.setImage(image4);
+         letraC.setImage(image5);
+         letraO.setImage(image6);
+         letraR.setImage(image7);
+         letraE.setImage(image8);
+         dospuntos.setImage(image9);
+         //Posicion score
+         letraS.setX(posXScore);
+         letraC.setX(posXScore+25);
+         letraO.setX(posXScore+50);
+         letraR.setX(posXScore+85);
+         letraE.setX(posXScore+115);
+         dospuntos.setX(-96);
+         dospuntos.setY(-223);
        
         root = new Pane(); 
         Scene scene = new Scene(root, 800, 400, Color.BLACK);
@@ -270,25 +322,65 @@ public class TappyPlaneFX extends Application {
         primaryStage.show();
         Random aleatorio=new Random();
         
+        Rectangle rectabajo = new Rectangle();
+        rectabajo.setRotate(0);
+        rectabajo.setX(0);
+        rectabajo.setY(370);
+        rectabajo.setWidth(800);
+        rectabajo.setHeight(1);
+        rectabajo.setArcWidth(5);
+        rectabajo.setArcHeight(5);
+        rectabajo.setFill(Color.WHITE);
+        rectabajo.setVisible(false);
+        
+        Rectangle rectarriba = new Rectangle();
+        rectarriba.setRotate(0);
+        rectarriba.setX(0);
+        rectarriba.setY(0);
+        rectarriba.setWidth(800);
+        rectarriba.setHeight(1);
+        rectarriba.setArcWidth(5);
+        rectarriba.setArcHeight(5);
+        rectarriba.setFill(Color.WHITE);
+        rectarriba.setVisible(false);   
+        
+        
+        
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()){
                 case UP:
-                    velocidadavion=2;
+                    velocidadavion=-3;
+                    groupAvion.setRotate(-30);
                     break;
-                case DOWN:
-                    velocidadavion=-2;
-                    break;
+//               case RIGHT:
+//                   velocidadavion=2;
+//                   break;
             }
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-            velocidadavion=-2;
+             velocidadavion=2;
+             groupAvion.setRotate(0);
+             groupAvion.setRotate(30);
         });
         
         AnimationTimer mov = new AnimationTimer(){
+                
             @Override
-            public void handle (long now){
-                
-                
+            
+            public void handle (long now){  
+                //Colision
+                Shape colision= Shape.intersect(rectabajo,elipse);
+                Shape colision2= Shape.intersect(rectarriba,elipse);
+
+                boolean choque=colision.getBoundsInLocal().isEmpty();
+                boolean choque2=colision2.getBoundsInLocal().isEmpty();
+
+                if(choque==false){
+                    reinciar();
+                }
+                if(choque2==false){
+                    reinciar();
+                }
                 //Colocamos el fondo
                 fondo1.setX(posX);
                 fondo2.setX(posX2);
@@ -320,19 +412,19 @@ public class TappyPlaneFX extends Application {
                 obst4.setFitHeight(190);
                 obst4.setFitWidth(54);
                 obst4.setRotate(180);
-                if(posXOBS==0){
+                if(posXOBS==-150){
                     int separacion=aleatorio.nextInt(950);
-                    posXOBS+=separacion;
+                    posXOBS=posXOBS4+separacion;
                 }
-                if(posXOBS2==0){
+                if(posXOBS2==-150){
                     int separacion=aleatorio.nextInt(950);
                     posXOBS2=posXOBS+separacion;
                 }
-                if(posXOBS3==0){
+                if(posXOBS3==-150){
                     int separacion=aleatorio.nextInt(950);
                     posXOBS3=posXOBS2+separacion;
                 }
-                if(posXOBS4==0){
+                if(posXOBS4==-150){
                     int separacion=aleatorio.nextInt(950);
                     posXOBS4=posXOBS3+separacion;
                 }
@@ -349,7 +441,7 @@ public class TappyPlaneFX extends Application {
                 posX+=velocidad;
                 posX2+=velocidad;
                 posYAVION+=velocidadavion;
-                //avion.setY(posYAVION);
+                groupAvion.setLayoutY(posYAVION);
                 
             };
         };
@@ -360,11 +452,33 @@ public class TappyPlaneFX extends Application {
         root.getChildren().add(obst2);
         root.getChildren().add(obst3);
         root.getChildren().add(obst4);
+        root.getChildren().add(rectabajo);
+        root.getChildren().add(rectarriba);
         root.getChildren().add(suelo);
         root.getChildren().add(suelo2);
+        root.getChildren().add(letraS);
+        root.getChildren().add(letraC);
+        root.getChildren().add(letraO);
+        root.getChildren().add(letraR);
+        root.getChildren().add(letraE);
+        root.getChildren().add(dospuntos);
+       
         avion();
         }
-    
+     public void reinciar(){
+        posX= 0;
+        posX2= 800;
+        posXOBS=820;
+        posXOBS2=900;
+        posXOBS3=960;
+        posXOBS4=1070;
+        velocidad=-1;
+        velocidadavion=2;
+        posXAVION=100;
+        posYAVION=0;
+        posXScore=0;
+        System.out.println("Reiniciando...");
+    }
 
 
 }
