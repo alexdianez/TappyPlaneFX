@@ -5,7 +5,13 @@
  */
 package tappyplanefx;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -31,7 +37,12 @@ import javafx.scene.input.KeyEvent;
  import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
  import javafx.stage.Stage; 
+import javax.sound.sampled.Clip;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  *
@@ -49,16 +60,18 @@ public class TappyPlaneFX extends Application {
     int posXAVION=100;
     int posYAVION=0;
     int posXScore=0;
+    int score=0;
     Pane root;
     Group groupAvion = new Group();
-     Ellipse elipse = new Ellipse(); 
-//        elipse.setCenterX(85.0f);
-//        elipse.setCenterY(200.0f);
-//        elipse.setRadiusX(40.0f);
-//        elipse.setRadiusY(15.0f);
-//        elipse.setFill(Color.RED);
-//        groupAvion.getChildren().add(elipse);
-   
+    Ellipse elipse = new Ellipse(); 
+    Rectangle objObs = new Rectangle();
+    Rectangle objObs2 = new Rectangle();
+    Rectangle objObs3 = new Rectangle();
+    Rectangle objObs4 = new Rectangle();
+    Text puntuacion=new Text("0");
+    
+    
+    
     public void avion(){
        
        
@@ -245,7 +258,15 @@ public class TappyPlaneFX extends Application {
     }
 
         @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+//        InputStream in = new FileInputStream("sonido.wav");
+//        // Create an AudioStream object from the input stream.
+//        AudioStream as = new AudioStream(in);         
+//        // Use the static class member "player" from class AudioPlayer to play
+//        // clip.
+//        AudioPlayer.player.start(as);            
+//        // Similarly, to stop the audio.
+//        AudioPlayer.player.stop(as);
         //Cuerpo
         Image image = new Image("fondo.png");
         Image image2 = new Image("suelo.png");
@@ -300,6 +321,8 @@ public class TappyPlaneFX extends Application {
          obst3.setImage(image3);
          obst4.setImage(image3);
          
+         
+         
          letraS.setImage(image4);
          letraC.setImage(image5);
          letraO.setImage(image6);
@@ -314,6 +337,7 @@ public class TappyPlaneFX extends Application {
          letraE.setX(posXScore+115);
          dospuntos.setX(-96);
          dospuntos.setY(-223);
+         
        
         root = new Pane(); 
         Scene scene = new Scene(root, 800, 400, Color.BLACK);
@@ -321,7 +345,7 @@ public class TappyPlaneFX extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         Random aleatorio=new Random();
-        
+        //Objetos para colision
         Rectangle rectabajo = new Rectangle();
         rectabajo.setRotate(0);
         rectabajo.setX(0);
@@ -343,6 +367,8 @@ public class TappyPlaneFX extends Application {
         rectarriba.setArcHeight(5);
         rectarriba.setFill(Color.WHITE);
         rectarriba.setVisible(false);   
+        
+        
         
         
         
@@ -368,19 +394,68 @@ public class TappyPlaneFX extends Application {
             @Override
             
             public void handle (long now){  
+               
+                puntuacion.setFont(Font.font(50));
+                puntuacion.setFill(Color.BLACK);
+                puntuacion.setText(String.valueOf(score));
+                puntuacion.setX(170);
+                puntuacion.setY(50);
                 //Colision
                 Shape colision= Shape.intersect(rectabajo,elipse);
                 Shape colision2= Shape.intersect(rectarriba,elipse);
+                
+                Shape colisionobs1= Shape.intersect(objObs,elipse);
+                Shape colisionobs2= Shape.intersect(objObs2,elipse);
+                Shape colisionobs3= Shape.intersect(objObs3,elipse);
+                Shape colisionobs4= Shape.intersect(objObs4,elipse);
 
                 boolean choque=colision.getBoundsInLocal().isEmpty();
                 boolean choque2=colision2.getBoundsInLocal().isEmpty();
-
+                
+                boolean choqueobs1=colisionobs1.getBoundsInLocal().isEmpty();
+                boolean choqueobs2=colisionobs2.getBoundsInLocal().isEmpty();
+                boolean choqueobs3=colisionobs3.getBoundsInLocal().isEmpty();
+                boolean choqueobs4=colisionobs4.getBoundsInLocal().isEmpty();
+                //reinicia el juego
                 if(choque==false){
                     reinciar();
                 }
                 if(choque2==false){
                     reinciar();
                 }
+                if(choqueobs1==false){
+                    reinciar();
+                }
+                if(choqueobs2==false){
+                    reinciar();
+                }
+                if(choqueobs3==false){
+                    reinciar();
+                }
+                if(choqueobs4==false){
+                    reinciar();
+                }
+           
+                //Suma puntuacion
+                if(choque==true){
+                    score++;
+                }
+//                if(choque2==true){
+//                     score++;
+//                }
+//                if(choqueobs1==true){
+//                     score++;
+//                }
+//                if(choqueobs2==true){
+//                     score++;
+//                }
+//                if(choqueobs3==true){
+//                     score++;
+//                }
+//                if(choqueobs4==true){
+//                     score++;
+//                }
+                System.out.println(score);
                 //Colocamos el fondo
                 fondo1.setX(posX);
                 fondo2.setX(posX2);
@@ -404,6 +479,47 @@ public class TappyPlaneFX extends Application {
                 //Obstaculo 4
                 obst4.setY(0);
                 obst4.setX(posXOBS4);
+                
+               //Objetos para colision
+                objObs.setRotate(0);
+                objObs.setX(posXOBS+60);
+                objObs.setY(200);
+                objObs.setWidth(10);
+                objObs.setHeight(800);
+                objObs.setArcWidth(5);
+                objObs.setArcHeight(5);
+                objObs.setFill(Color.RED);
+                objObs.setVisible(false);
+                
+                objObs2.setRotate(0);
+                objObs2.setX(posXOBS2+60);
+                objObs2.setY(250);
+                objObs2.setWidth(10);
+                objObs2.setHeight(800);
+                objObs2.setArcWidth(5);
+                objObs2.setArcHeight(5);
+                objObs2.setFill(Color.RED);
+                objObs2.setVisible(false); 
+                
+                objObs3.setRotate(0);
+                objObs3.setX(posXOBS3+15);
+                objObs3.setY(-680);
+                objObs3.setWidth(10);
+                objObs3.setHeight(800);
+                objObs3.setArcWidth(5);
+                objObs3.setArcHeight(5);
+                objObs3.setFill(Color.RED);
+                objObs3.setVisible(false); 
+                
+                objObs4.setRotate(0);
+                objObs4.setX(posXOBS4+15);
+                objObs4.setY(-610);
+                objObs4.setWidth(10);
+                objObs4.setHeight(800);
+                objObs4.setArcWidth(5);
+                objObs4.setArcHeight(5);
+                objObs4.setFill(Color.RED);
+                objObs4.setVisible(false); 
                
                //Redimensionado de imagenes
                 obst2.setFitHeight(120);
@@ -448,6 +564,10 @@ public class TappyPlaneFX extends Application {
         mov.start();
         root.getChildren().add(fondo2);
         root.getChildren().add(fondo1);
+        root.getChildren().add(objObs);
+        root.getChildren().add(objObs2);
+        root.getChildren().add(objObs3);
+        root.getChildren().add(objObs4);
         root.getChildren().add(obst);
         root.getChildren().add(obst2);
         root.getChildren().add(obst3);
@@ -462,7 +582,7 @@ public class TappyPlaneFX extends Application {
         root.getChildren().add(letraR);
         root.getChildren().add(letraE);
         root.getChildren().add(dospuntos);
-       
+        root.getChildren().add(puntuacion);
         avion();
         }
      public void reinciar(){
@@ -477,9 +597,10 @@ public class TappyPlaneFX extends Application {
         posXAVION=100;
         posYAVION=0;
         posXScore=0;
+        score=0;
         System.out.println("Reiniciando...");
     }
-
+    
 
 }
   
