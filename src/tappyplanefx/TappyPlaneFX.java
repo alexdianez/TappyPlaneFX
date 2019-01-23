@@ -5,44 +5,26 @@
  */
 package tappyplanefx;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.geometry.NodeOrientation;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.application.Application;
-import javafx.event.EventHandler;
- import javafx.geometry.Rectangle2D;
- import javafx.scene.Group;
- import javafx.scene.Scene; 
- import javafx.scene.image.Image;
- import javafx.scene.image.ImageView;
+import javafx.scene.Group;
+import javafx.scene.Scene; 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
- import javafx.scene.layout.HBox;
- import javafx.scene.paint.Color;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
- import javafx.stage.Stage; 
-import javax.sound.sampled.Clip;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
+import javafx.stage.Stage; 
+
 
 /**
  *
@@ -55,7 +37,7 @@ public class TappyPlaneFX extends Application {
     int posXOBS2=900;
     int posXOBS3=960;
     int posXOBS4=1070;
-    int velocidad=-1;
+    int velocidad=-2;
     int velocidadavion=2;
     int posXAVION=100;
     int posYAVION=0;
@@ -69,9 +51,14 @@ public class TappyPlaneFX extends Application {
     Rectangle objObs3 = new Rectangle();
     Rectangle objObs4 = new Rectangle();
     Text puntuacion=new Text("0");
+    Image image10 = new Image("GameOver.png");
+    ImageView GameOver = new ImageView();
+    Image image11 = new Image("enter.png");
+    ImageView enter = new ImageView();
     
     
-    
+
+
     public void avion(){
        
        
@@ -259,18 +246,20 @@ public class TappyPlaneFX extends Application {
 
         @Override
     public void start(Stage primaryStage) throws IOException {
-//        InputStream in = new FileInputStream("sonido.wav");
+//        InputStream in = new FileInputStream("/tappyplanefx/sonido.wav");
 //        // Create an AudioStream object from the input stream.
 //        AudioStream as = new AudioStream(in);         
 //        // Use the static class member "player" from class AudioPlayer to play
 //        // clip.
 //        AudioPlayer.player.start(as);            
-//        // Similarly, to stop the audio.
-//        AudioPlayer.player.stop(as);
+//        
         //Cuerpo
+//        sonido2 reproducir = new sonido2();
+//        reproducir.setVisible(true);
         Image image = new Image("fondo.png");
         Image image2 = new Image("suelo.png");
         Image image3 = new Image("obst.png");
+        
         //Score
         Image image4 = new Image("s.png");
         Image image5 = new Image("c.png");
@@ -281,6 +270,7 @@ public class TappyPlaneFX extends Application {
         
          ImageView fondo1 = new ImageView();
          ImageView fondo2 = new ImageView();
+         
          
          ImageView suelo = new ImageView();
          ImageView suelo2 = new ImageView();
@@ -312,6 +302,7 @@ public class TappyPlaneFX extends Application {
          
          fondo1.setImage(image);
          fondo2.setImage(image);
+         
          
          suelo.setImage(image2);
          suelo2.setImage(image2);
@@ -372,27 +363,16 @@ public class TappyPlaneFX extends Application {
         
         
         
-        scene.setOnKeyPressed((KeyEvent event) -> {
-            switch(event.getCode()){
-                case UP:
-                    velocidadavion=-3;
-                    groupAvion.setRotate(-30);
-                    break;
-//               case RIGHT:
-//                   velocidadavion=2;
-//                   break;
-            }
-        });
-        scene.setOnKeyReleased((KeyEvent event) -> {
-             velocidadavion=2;
-             groupAvion.setRotate(0);
-             groupAvion.setRotate(30);
-        });
+        
+        
+        
         
         AnimationTimer mov = new AnimationTimer(){
                 
-            @Override
+          
+    
             
+            @Override
             public void handle (long now){  
                
                 puntuacion.setFont(Font.font(50));
@@ -418,27 +398,40 @@ public class TappyPlaneFX extends Application {
                 boolean choqueobs4=colisionobs4.getBoundsInLocal().isEmpty();
                 //reinicia el juego
                 if(choque==false){
-                    reinciar();
+           
+                    stop();
+                    gameover();
                 }
                 if(choque2==false){
-                    reinciar();
+              
+                    stop();
+                    gameover();
                 }
                 if(choqueobs1==false){
-                    reinciar();
+                 
+                    stop();
+                    gameover();
                 }
                 if(choqueobs2==false){
-                    reinciar();
+                 
+                    stop();
+                    gameover();
                 }
                 if(choqueobs3==false){
-                    reinciar();
+              
+                    stop();
+                    gameover();
                 }
                 if(choqueobs4==false){
-                    reinciar();
+
+                    stop();
+                    gameover();
                 }
            
                 //Suma puntuacion
                 if(choque==true){
                     score++;
+//                    score.sleep(1000);
                 }
 //                if(choque2==true){
 //                     score++;
@@ -560,7 +553,42 @@ public class TappyPlaneFX extends Application {
                 groupAvion.setLayoutY(posYAVION);
                 
             };
+//              @Override
+//                 public void stop(){
+//                    posX= 0;
+//                    posX2= 800;
+//                    posXOBS=820;
+//                    posXOBS2=900;
+//                    posXOBS3=960;
+//                    posXOBS4=1070;
+//                    velocidad=0;
+//                    velocidadavion=0;
+//                    posXAVION=100;
+//                    posYAVION=0;
+//                    posXScore=0;
+//                    score=0;
+//                    System.out.println("Parando...");
+//
+//                   
+//                }
         };
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch(event.getCode()){
+                case SPACE:
+                    velocidadavion=-3;
+                    groupAvion.setRotate(-30);
+                    break;
+               case ENTER:
+                  reiniciar();
+                  mov.start();
+                   break;
+            }
+        });
+        scene.setOnKeyReleased((KeyEvent event) -> {
+             velocidadavion=2;
+             groupAvion.setRotate(0);
+             groupAvion.setRotate(30);
+        });
         mov.start();
         root.getChildren().add(fondo2);
         root.getChildren().add(fondo1);
@@ -583,24 +611,43 @@ public class TappyPlaneFX extends Application {
         root.getChildren().add(letraE);
         root.getChildren().add(dospuntos);
         root.getChildren().add(puntuacion);
+        
+        
         avion();
         }
-     public void reinciar(){
+    
+    public void gameover(){
+        
+        enter.setImage(image11);
+        enter.setX(-50);
+        enter.setY(0);
+        root.getChildren().add(enter); 
+        enter.setScaleX(0.5);
+        enter.setScaleY(0.5);
+        
+        GameOver.setImage(image10);
+        GameOver.setX(200);
+        GameOver.setY(100);
+        root.getChildren().add(GameOver); 
+        groupAvion.setVisible(false); 
+    }
+    public void reiniciar(){
         posX= 0;
         posX2= 800;
         posXOBS=820;
         posXOBS2=900;
         posXOBS3=960;
         posXOBS4=1070;
-        velocidad=-1;
+        velocidad=-2;
         velocidadavion=2;
         posXAVION=100;
         posYAVION=0;
         posXScore=0;
         score=0;
         System.out.println("Reiniciando...");
+        root.getChildren().remove(GameOver); 
+        root.getChildren().remove(enter);
+        groupAvion.setVisible(true); 
     }
-    
-
 }
   
