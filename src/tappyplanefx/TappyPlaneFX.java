@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
@@ -35,57 +36,57 @@ import sun.audio.AudioStream;
  * @author alex
  */
 public class TappyPlaneFX extends Application {
-    int posX= 0;
-    int posX2= 800;
-    int posXOBS=820;
-    int posXOBS2=900;
-    int posXOBS3=960;
-    int posXOBS4=1070;
-    int velocidad=-2;
-    int velocidadavion=2;
-    int posXAVION=100;
-    int posYAVION=0;
-    int posXScore=0;
-    int score=0;
-    Pane root;
-    Group groupAvion = new Group();
-    Ellipse elipse = new Ellipse(); 
-    Rectangle objObs = new Rectangle();
-    Rectangle objObs2 = new Rectangle();
-    Rectangle objObs3 = new Rectangle();
-    Rectangle objObs4 = new Rectangle();
-    Text puntuacion=new Text("0");
-    Image image10 = new Image("GameOver.png");
-    ImageView GameOver = new ImageView();
-    Image image11 = new Image("enter.png");
-    ImageView enter = new ImageView();
-    Image image3 = new Image("obst.png");
-    ImageView obst = new ImageView();
-    ImageView obst2 = new ImageView();
-    ImageView obst3 = new ImageView();
-    ImageView obst4 = new ImageView();
-    Image image4 = new Image("s.png");
-    Image image5 = new Image("c.png");
-    Image image6 = new Image("o.png");
-    Image image7 = new Image("r.png");
-    Image image8 = new Image("e.png");
-    Image image9 = new Image("dospuntos.png");
-     ImageView letraS = new ImageView();
- ImageView letraC = new ImageView();
- ImageView letraO = new ImageView();
- ImageView letraR = new ImageView();
- ImageView letraE = new ImageView();
- ImageView dospuntos = new ImageView();
-  Rectangle rectabajo = new Rectangle();
-   Rectangle rectarriba = new Rectangle();
-   Image image2 = new Image("suelo.png");
-   ImageView suelo = new ImageView();
-   ImageView suelo2 = new ImageView();
-   ImageView fondo1 = new ImageView();
-   ImageView fondo2 = new ImageView();
-   Image image = new Image("fondo.png");
-   Image image13= new Image("inicio.png");
-   ImageView inicio = new ImageView();
+int posX= 0;
+int posX2= 800;
+int posXOBS= ThreadLocalRandom.current().nextInt(800, 1100);
+int posXOBS2= ThreadLocalRandom.current().nextInt(1100, 1300);
+int posXOBS3=ThreadLocalRandom.current().nextInt(1300, 1500);
+int posXOBS4=ThreadLocalRandom.current().nextInt(1500, 1700);
+double velocidad=-5;
+int velocidadavion=0;
+int posXAVION=100;
+int posYAVION=0;
+int posXScore=0;
+int score=0;
+Pane root;
+Group groupAvion = new Group();
+Ellipse elipse = new Ellipse(); 
+Rectangle objObs = new Rectangle();
+Rectangle objObs2 = new Rectangle();
+Rectangle objObs3 = new Rectangle();
+Rectangle objObs4 = new Rectangle();
+Text puntuacion=new Text("0");
+Image image10 = new Image("GameOver.png");
+ImageView GameOver = new ImageView();
+Image image11 = new Image("enter.png");
+ImageView enter = new ImageView();
+Image image3 = new Image("obst.png");
+ImageView obst = new ImageView();
+ImageView obst2 = new ImageView();
+ImageView obst3 = new ImageView();
+ImageView obst4 = new ImageView();
+Image image4 = new Image("s.png");
+Image image5 = new Image("c.png");
+Image image6 = new Image("o.png");
+Image image7 = new Image("r.png");
+Image image8 = new Image("e.png");
+Image image9 = new Image("dospuntos.png");
+ImageView letraS = new ImageView();
+ImageView letraC = new ImageView();
+ImageView letraO = new ImageView();
+ImageView letraR = new ImageView(); 
+ImageView letraE = new ImageView();
+ImageView dospuntos = new ImageView();
+Rectangle rectabajo = new Rectangle();
+Rectangle rectarriba = new Rectangle();
+Image image2 = new Image("suelo.png");
+ImageView suelo = new ImageView();
+ImageView suelo2 = new ImageView();
+ImageView fondo1 = new ImageView();
+ImageView fondo2 = new ImageView();
+Image image = new Image("fondo.png");
+Image image13= new Image("inicio.png");
+ImageView inicio = new ImageView();
    
 
 
@@ -325,77 +326,77 @@ public class TappyPlaneFX extends Application {
             @Override
             public void handle (long now){  
                  //Colocamos el fondo
-        fondo1.setX(posX);
-        fondo2.setX(posX2);
-        //Colocamos el suelo
-        suelo.setY(335);
-        suelo2.setY(335);
-        suelo2.setX(posX2);
-        suelo.setX(posX);
-        //Colocamos los obstaculos
-        //Eje X
-        //Obstaculo 1
-        obst.setY(200);
-        obst.setX(posXOBS);
-        //Obstaculo 2
-        obst3.setY(250);
-        obst3.setX(posXOBS2);
-        //EjeY
-        //Obstaculo 3
-        obst2.setY(0);
-        obst2.setX(posXOBS3);
-        //Obstaculo 4
-        obst4.setY(0);
-        obst4.setX(posXOBS4);
+                fondo1.setX(posX);
+                fondo2.setX(posX2);
+                //Colocamos el suelo
+                suelo.setY(335);
+                suelo2.setY(335);
+                suelo2.setX(posX2);
+                suelo.setX(posX);
+                //Colocamos los obstaculos
+                //Eje X
+                //Obstaculo 1
+                obst.setY(200);
+                obst.setX(posXOBS);
+                //Obstaculo 2
+                obst3.setY(250);
+                obst3.setX(posXOBS2);
+                //EjeY
+                //Obstaculo 3
+                obst2.setY(0);
+                obst2.setX(posXOBS3);
+                //Obstaculo 4
+                obst4.setY(0);
+                obst4.setX(posXOBS4);
 
-       //Objetos para colision
-        objObs.setRotate(0);
-        objObs.setX(posXOBS+60);
-        objObs.setY(200);
-        objObs.setWidth(10);
-        objObs.setHeight(800);
-        objObs.setArcWidth(5);
-        objObs.setArcHeight(5);
-        objObs.setFill(Color.RED);
-        objObs.setVisible(false);
+               //Objetos para colision
+                objObs.setRotate(0);
+                objObs.setX(posXOBS+60);
+                objObs.setY(200);
+                objObs.setWidth(10);
+                objObs.setHeight(800);
+                objObs.setArcWidth(5);
+                objObs.setArcHeight(5);
+                objObs.setFill(Color.RED);
+                objObs.setVisible(false);
 
-        objObs2.setRotate(0);
-        objObs2.setX(posXOBS2+60);
-        objObs2.setY(250);
-        objObs2.setWidth(10);
-        objObs2.setHeight(800);
-        objObs2.setArcWidth(5);
-        objObs2.setArcHeight(5);
-        objObs2.setFill(Color.RED);
-        objObs2.setVisible(false); 
+                objObs2.setRotate(0);
+                objObs2.setX(posXOBS2+60);
+                objObs2.setY(250);
+                objObs2.setWidth(10);
+                objObs2.setHeight(800);
+                objObs2.setArcWidth(5);
+                objObs2.setArcHeight(5);
+                objObs2.setFill(Color.RED);
+                objObs2.setVisible(false); 
 
-        objObs3.setRotate(0);
-        objObs3.setX(posXOBS3+15);
-        objObs3.setY(-680);
-        objObs3.setWidth(10);
-        objObs3.setHeight(800);
-        objObs3.setArcWidth(5);
-        objObs3.setArcHeight(5);
-        objObs3.setFill(Color.RED);
-        objObs3.setVisible(false); 
+                objObs3.setRotate(0);
+                objObs3.setX(posXOBS3+15);
+                objObs3.setY(-680);
+                objObs3.setWidth(10);
+                objObs3.setHeight(800);
+                objObs3.setArcWidth(5);
+                objObs3.setArcHeight(5);
+                objObs3.setFill(Color.RED);
+                objObs3.setVisible(false); 
 
-        objObs4.setRotate(0);
-        objObs4.setX(posXOBS4+15);
-        objObs4.setY(-610);
-        objObs4.setWidth(10);
-        objObs4.setHeight(800);
-        objObs4.setArcWidth(5);
-        objObs4.setArcHeight(5);
-        objObs4.setFill(Color.RED);
-        objObs4.setVisible(false); 
+                objObs4.setRotate(0);
+                objObs4.setX(posXOBS4+15);
+                objObs4.setY(-610);
+                objObs4.setWidth(10);
+                objObs4.setHeight(800);
+                objObs4.setArcWidth(5);
+                objObs4.setArcHeight(5);
+                objObs4.setFill(Color.RED);
+                objObs4.setVisible(false); 
 
-       //Redimensionado de imagenes
-        obst2.setFitHeight(120);
-        obst2.setFitWidth(54);
-        obst2.setRotate(180);
-        obst4.setFitHeight(190);
-        obst4.setFitWidth(54);
-        obst4.setRotate(180);
+               //Redimensionado de imagenes
+                obst2.setFitHeight(120);
+                obst2.setFitWidth(54);
+                obst2.setRotate(180);
+                obst4.setFitHeight(190);
+                obst4.setFitWidth(54);
+                obst4.setRotate(180);
                
                 
                 //Colision
@@ -416,32 +417,32 @@ public class TappyPlaneFX extends Application {
                 boolean choqueobs4=colisionobs4.getBoundsInLocal().isEmpty();
                 //reinicia el juego
                 if(choque==false){
-           
+                AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
                 if(choque2==false){
-              
+               AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
                 if(choqueobs1==false){
-                 
+                  AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
                 if(choqueobs2==false){
-                 
+                     AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
                 if(choqueobs3==false){
-              
+               AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
                 if(choqueobs4==false){
-
+                 AudioPlayer.player.stop(as);
                     stop();
                     gameover();
                 }
@@ -453,26 +454,27 @@ public class TappyPlaneFX extends Application {
                 //Suma puntuacion
                 if(choque==true){
                     score++;
-//                    score.sleep(1000);
                 }
-                System.out.println(score);
-               
-                if(posXOBS==-150){
-                    int separacion=aleatorio.nextInt(950);
+//                System.out.println(score);
+                
+               int min= 300;
+               int max= 950;
+                if(posXOBS<=-150){
+                    int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS=posXOBS4+separacion;
                 }
-                if(posXOBS2==-150){
-                    int separacion=aleatorio.nextInt(950);
+                if(posXOBS2<=-150){
+                    int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS2=posXOBS+separacion;
                 }
-                if(posXOBS3==-150){
-                    int separacion=aleatorio.nextInt(950);
+                if(posXOBS3<=-150){
+                    int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS3=posXOBS2+separacion;
                 }
-                if(posXOBS4==-150){
-                    int separacion=aleatorio.nextInt(950);
+                if(posXOBS4<=-150){
+                    int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS4=posXOBS3+separacion;
-                }
+                } 
                 if(posX2==0){
                     posX=800;
                 }
@@ -480,24 +482,34 @@ public class TappyPlaneFX extends Application {
                     posX2=800;
                 }
                 
-                 posXOBS+=velocidad;
-            posXOBS2+=velocidad;
-            posXOBS3+=velocidad;
-            posXOBS4+=velocidad;
-            posX+=velocidad;
-            posX2+=velocidad;
-            posYAVION+=velocidadavion;
-            groupAvion.setLayoutY(posYAVION);
-            };
+                
+                posXOBS+=velocidad;
+                posXOBS2+=velocidad;
+                posXOBS3+=velocidad;
+                posXOBS4+=velocidad;
+                posX+=velocidad;
+                posX2+=velocidad;
+                posYAVION+=velocidadavion;
+                //Muestra posicion y velocidad
+                System.out.println(velocidadavion);
+                System.out.println(posYAVION);
+                groupAvion.setLayoutY(posYAVION);
+                };
             
         };
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()){
                 case SPACE:
-                    velocidadavion=-3;
+//                    if(score==1000){
+//                    velocidadavion=-4;
+//                    System.out.println(velocidadavion);
+//                    System.out.println(score);
+//                }
+                    velocidadavion=-5;
                     groupAvion.setRotate(-30);
                     break;
                case ENTER:
+                  AudioPlayer.player.start(as);  
                   reiniciar();
                   mov.start();
                    break;
@@ -512,8 +524,7 @@ public class TappyPlaneFX extends Application {
                 }
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-             velocidadavion=2;
-             groupAvion.setRotate(0);
+             velocidadavion=4;
              groupAvion.setRotate(30);
         });
         root.getChildren().add(fondo1);
@@ -591,10 +602,11 @@ public class TappyPlaneFX extends Application {
         rectarriba.setArcHeight(5);
         rectarriba.setFill(Color.WHITE);
         rectarriba.setVisible(false);   
-        this.
-         avion();
+        avion();
     }
     public void gameover(){
+       
+        
         enter.setImage(image11);
         enter.setX(-50);
         enter.setY(0);
@@ -615,8 +627,8 @@ public class TappyPlaneFX extends Application {
         posXOBS2=900;
         posXOBS3=960;
         posXOBS4=1070;
-        velocidad=-2;
-        velocidadavion=2;
+        velocidad=-5;
+        velocidadavion=0;
         posXAVION=100;
         posYAVION=0;
         posXScore=0;
