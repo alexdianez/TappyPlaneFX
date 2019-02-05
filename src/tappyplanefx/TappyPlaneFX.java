@@ -29,6 +29,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage; 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
 
 
 /**
@@ -56,21 +61,21 @@ Rectangle objObs2 = new Rectangle();
 Rectangle objObs3 = new Rectangle();
 Rectangle objObs4 = new Rectangle();
 Text puntuacion=new Text("0");
-Image image10 = new Image("GameOver.png");
+Image image10 = new Image( getClass().getResourceAsStream("recursos/GameOver.png"));
 ImageView GameOver = new ImageView();
-Image image11 = new Image("enter.png");
+Image image11 = new Image(getClass().getResourceAsStream("recursos/enter.png"));
 ImageView enter = new ImageView();
-Image image3 = new Image("obst.png");
+Image image3 = new Image(getClass().getResourceAsStream("recursos/obst.png"));
 ImageView obst = new ImageView();
 ImageView obst2 = new ImageView();
 ImageView obst3 = new ImageView();
 ImageView obst4 = new ImageView();
-Image image4 = new Image("s.png");
-Image image5 = new Image("c.png");
-Image image6 = new Image("o.png");
-Image image7 = new Image("r.png");
-Image image8 = new Image("e.png");
-Image image9 = new Image("dospuntos.png");
+Image image4 = new Image(getClass().getResourceAsStream("recursos/s.png"));
+Image image5 = new Image (getClass().getResourceAsStream("recursos/c.png"));
+Image image6 = new Image (getClass().getResourceAsStream("recursos/o.png"));
+Image image7 = new Image (getClass().getResourceAsStream("recursos/r.png"));
+Image image8 = new Image (getClass().getResourceAsStream("recursos/e.png"));
+Image image9 = new Image (getClass().getResourceAsStream("recursos/dospuntos.png"));
 ImageView letraS = new ImageView();
 ImageView letraC = new ImageView();
 ImageView letraO = new ImageView();
@@ -79,16 +84,17 @@ ImageView letraE = new ImageView();
 ImageView dospuntos = new ImageView();
 Rectangle rectabajo = new Rectangle();
 Rectangle rectarriba = new Rectangle();
-Image image2 = new Image("suelo.png");
+Image image2 = new Image (getClass().getResourceAsStream("recursos/suelo.png"));
 ImageView suelo = new ImageView();
 ImageView suelo2 = new ImageView();
 ImageView fondo1 = new ImageView();
 ImageView fondo2 = new ImageView();
-Image image = new Image("fondo.png");
-Image image13= new Image("inicio.png");
+Image image = new Image (getClass().getResourceAsStream("recursos/fondo.png"));
+Image image13= new Image (getClass().getResourceAsStream("recursos/inicio.png"));
 ImageView inicio = new ImageView();
-   
-
+AudioStream as2;
+AudioStream as3;
+Timeline mov;
 
     public void avion(){
        
@@ -277,12 +283,14 @@ ImageView inicio = new ImageView();
 
         @Override
     public void start(Stage primaryStage) throws IOException {
-        InputStream in = new FileInputStream("sonido.wav");
+        //InputStream in = new FileInputStream("sonido.wav");
         // Create an AudioStream object from the input stream.
-        AudioStream as = new AudioStream(in);         
+        AudioStream as = new AudioStream((getClass().getResourceAsStream("recursos/sonido.wav")));     
+        as2 = new AudioStream((getClass().getResourceAsStream("recursos/iniciocancion.wav")));
+        as3=  new AudioStream((getClass().getResourceAsStream("recursos/muerte.wav")));
+        
         // Use the static class member "player" from class AudioPlayer to play
         // clip.       
-        
         AudioPlayer.player.stop(as); 
         
          inicio.setImage(image13);
@@ -321,10 +329,11 @@ ImageView inicio = new ImageView();
         Random aleatorio=new Random();
         //Objetos para colision
 
-       
-        AnimationTimer mov = new AnimationTimer(){
-            @Override
-            public void handle (long now){  
+         mov = new Timeline(
+            // 0.017 ~= 60 FPS
+            new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
+            public void handle (ActionEvent ae){  
+               
                  //Colocamos el fondo
                 fondo1.setX(posX);
                 fondo2.setX(posX2);
@@ -418,32 +427,38 @@ ImageView inicio = new ImageView();
                 //reinicia el juego
                 if(choque==false){
                 AudioPlayer.player.stop(as);
-                    stop();
+                     mov.pause();
                     gameover();
+                    AudioPlayer.player.start(as3);
                 }
                 if(choque2==false){
                AudioPlayer.player.stop(as);
-                    stop();
+                     mov.pause();
                     gameover();
+                    AudioPlayer.player.start(as3);
                 }
                 if(choqueobs1==false){
                   AudioPlayer.player.stop(as);
-                    stop();
+                     mov.pause();
                     gameover();
+                    AudioPlayer.player.start(as3);
                 }
                 if(choqueobs2==false){
                      AudioPlayer.player.stop(as);
-                    stop();
+                     mov.pause();
                     gameover();
+                    AudioPlayer.player.start(as3);
                 }
                 if(choqueobs3==false){
                AudioPlayer.player.stop(as);
-                    stop();
+                     mov.pause();
                     gameover();
+                    AudioPlayer.player.start(as3);
                 }
                 if(choqueobs4==false){
                  AudioPlayer.player.stop(as);
-                    stop();
+                  AudioPlayer.player.start(as3);
+                    mov.pause();
                     gameover();
                 }
                 puntuacion.setFont(Font.font(50));
@@ -457,21 +472,21 @@ ImageView inicio = new ImageView();
                 }
 //                System.out.println(score);
                 
-               int min= 300;
-               int max= 950;
-                if(posXOBS<=-150){
+               int min= 170;
+               int max= 300;
+                if(posXOBS<=-80){
                     int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS=posXOBS4+separacion;
                 }
-                if(posXOBS2<=-150){
+                if(posXOBS2<=-80){
                     int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS2=posXOBS+separacion;
                 }
-                if(posXOBS3<=-150){
+                if(posXOBS3<=-80){
                     int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS3=posXOBS2+separacion;
                 }
-                if(posXOBS4<=-150){
+                if(posXOBS4<=-80){
                     int separacion=ThreadLocalRandom.current().nextInt(min, max);
                     posXOBS4=posXOBS3+separacion;
                 } 
@@ -496,7 +511,9 @@ ImageView inicio = new ImageView();
                 groupAvion.setLayoutY(posYAVION);
                 };
             
-        };
+        })
+        );
+        mov.setCycleCount(Timeline.INDEFINITE);
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch(event.getCode()){
                 case SPACE:
@@ -509,14 +526,16 @@ ImageView inicio = new ImageView();
                     groupAvion.setRotate(-30);
                     break;
                case ENTER:
+//                  AudioPlayer.player.stop(as3); 
                   AudioPlayer.player.start(as);  
                   reiniciar();
-                  mov.start();
+                  mov.play();
                    break;
                case S:
+                   AudioPlayer.player.stop(as2);
                     AudioPlayer.player.start(as);  
-                     inicio();
-                     mov.start();
+                     inicio();  
+                     mov.play();
                     break;
                 case M:
                     AudioPlayer.player.stop(as);  
@@ -528,9 +547,14 @@ ImageView inicio = new ImageView();
              groupAvion.setRotate(30);
         });
         root.getChildren().add(fondo1);
-        root.getChildren().add(inicio);
+        pantallainicio();
         }
+    public void pantallainicio(){
+        AudioPlayer.player.start(as2);
+        root.getChildren().add(inicio);
+    }
     public void inicio(){
+         
         root.getChildren().add(fondo2);
         root.getChildren().add(objObs);
         root.getChildren().add(objObs2);
@@ -605,8 +629,6 @@ ImageView inicio = new ImageView();
         avion();
     }
     public void gameover(){
-       
-        
         enter.setImage(image11);
         enter.setX(-50);
         enter.setY(0);
@@ -637,6 +659,9 @@ ImageView inicio = new ImageView();
         root.getChildren().remove(GameOver); 
         root.getChildren().remove(enter);
         groupAvion.setVisible(true); 
+    }
+    public static void main(String[] args){
+        launch(args);
     }
 }
   
